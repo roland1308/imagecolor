@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <div class="row justify-content-center">
@@ -47,7 +46,9 @@ export default {
     },
     uploadImage() {
       axios.post("/image/store", { image: this.image }).then(response => {
-        console.log(response);
+        if (response.data.success) {
+          alert(response.data.success);
+        }
       });
     }
   }
