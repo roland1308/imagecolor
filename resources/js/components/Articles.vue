@@ -3,9 +3,9 @@
     <form>
       <div class="form-group">
         <label for="checkimg">Please choose the file to check</label>
-        <input type="file" @change="sendimg" />
+        <input type="file" @change="imagePreview" />
       </div>
-      <button v-on:click="clrimage" class="btn btn-primary">Clear</button>
+      <button class="btn btn-primary">Clear</button>
     </form>
   </div>
 </template>
@@ -14,21 +14,29 @@
 export default {
   data() {
     return {
-      linktoimg: ""
+      linktoimg: "",
+      color: ""
     };
   },
 
   methods: {
-    sendimg(event) {
-      event.preventDefault();
+    imagePreview(event) {
       console.log(event.target.files[0]);
-    },
+      let formData = new FormData();
+      formData.append("image", event.target.files[0]);
+      console.log(formData);
 
-    fetchColor() {
-      fetch("api/chkcolor")
-        .then(res => res.json())
-        .then(res => {
-          console.log(res.data);
+      axios
+        .post("/formsubmit", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response, "success");
+        })
+        .catch(e => {
+          console.log(e);
         });
     }
   }
