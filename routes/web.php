@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::post('/image/store', 'ImageController@store');
+Route::get('/image/check', 'ImageController@check');

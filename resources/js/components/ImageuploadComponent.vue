@@ -44,12 +44,20 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    uploadImage() {
-      axios.post("/image/store", { image: this.image }).then(response => {
-        if (response.data.success) {
-          alert(response.data.success);
-        }
-      });
+    async uploadImage() {
+      let response = await axios.post("/image/store", { image: this.image });
+      if (response.data.success) {
+        alert(response.data.success);
+        console.log("RISULTATO 1", response.data.success);
+        this.checkImage(response.data.success);
+      }
+    },
+    async checkImage(fileLink) {
+      let response = await axios.get("/image/check", { imageLink: fileLink });
+      if (response.data.success) {
+        alert(response.data.success);
+        console.log("RISULTATO 2", response.data.success);
+      }
     }
   }
 };
