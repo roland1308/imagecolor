@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" /> <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <style>
 
     </style>
@@ -19,7 +19,6 @@
 <body>
     <div id="app">
         <navbar></navbar>
-
         <div class="container">
             <image-component></image-component>
         </div>

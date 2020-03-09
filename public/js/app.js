@@ -2015,17 +2015,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.get("/image/check", {
+                return axios.post("/image/check", {
                   imageLink: fileLink
                 });
 
               case 2:
                 response = _context2.sent;
-
-                if (response.data.success) {
-                  alert(response.data.success);
-                  console.log("RISULTATO 2", response.data.success);
-                }
+                console.log(response.data);
 
               case 4:
               case "end":

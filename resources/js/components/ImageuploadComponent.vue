@@ -53,11 +53,8 @@ export default {
       }
     },
     async checkImage(fileLink) {
-      let response = await axios.get("/image/check", { imageLink: fileLink });
-      if (response.data.success) {
-        alert(response.data.success);
-        console.log("RISULTATO 2", response.data.success);
-      }
+      let response = await axios.post("/image/check", { imageLink: fileLink });
+      console.log(response.data);
     }
   }
 };
