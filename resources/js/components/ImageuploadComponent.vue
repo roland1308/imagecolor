@@ -27,7 +27,12 @@
               >{{box[3]}}</div>
             </div>
           </div>
-          <p>The most used color in the image is similar to:</p>
+          <p>The most used color in the image is:</p>
+          <div
+            class="col quadro"
+            v-bind:style="{ backgroundColor: 'rgb(' + this.askedColor[0] + ',' + this.askedColor[1] + ',' + this.askedColor[2] + ')'}"
+          >RESULT</div>
+          <p>And is similar to:</p>
           <div
             class="col quadro"
             v-bind:style="{ backgroundColor: 'rgb(' + this.colorFrequency[0] + ',' + this.colorFrequency[1] + ',' + this.colorFrequency[2] + ')'}"
@@ -45,7 +50,8 @@ export default {
       image: "",
       position: null,
       colorTable: [],
-      colorFrequency: []
+      colorFrequency: [],
+      askedColor: []
     };
   },
 
@@ -77,7 +83,21 @@ export default {
       this.position = response.data.position;
       this.colorTable = JSON.parse(response.data.colorTable);
       this.colorFrequency = this.colorTable[this.position];
+      this.askedColor = JSON.parse(response.data.mostUsed);
     }
   }
 };
 </script>
+
+<style scoped>
+.quadro {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  padding-top: 40px;
+  font-weight: bolder;
+  color: black;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.5);
+}
+</style>
