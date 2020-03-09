@@ -1953,10 +1953,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      image: ""
+      image: "",
+      position: null,
+      colorTable: [],
+      colorFrequency: []
     };
   },
   methods: {
@@ -2008,6 +2026,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     checkImage: function checkImage(fileLink) {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -2022,8 +2042,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context2.sent;
                 console.log(response.data);
+                _this2.position = response.data.position;
+                _this2.colorTable = JSON.parse(response.data.colorTable);
+                _this2.colorFrequency = _this2.colorTable[_this2.position];
 
-              case 4:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -38156,15 +38179,6 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
-              _vm.image
-                ? _c("div", { staticClass: "col-md-3" }, [
-                    _c("img", {
-                      staticClass: "img-responsive",
-                      attrs: { src: _vm.image, height: "70", width: "90" }
-                    })
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _c("div", { staticClass: "col-md-6" }, [
                 _c("input", {
                   staticClass: "form-control",
@@ -38182,10 +38196,66 @@ var render = function() {
                   },
                   [_vm._v("Upload Image")]
                 )
-              ])
+              ]),
+              _vm._v(" "),
+              _vm.image
+                ? _c("div", { staticClass: "col-md-3" }, [
+                    _c("img", {
+                      staticClass: "img-responsive",
+                      attrs: { src: _vm.image, height: "70", width: "90" }
+                    })
+                  ])
+                : _vm._e()
             ])
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.position
+          ? _c("div", [
+              _c(
+                "div",
+                { staticClass: "d-flex flex-row flex-wrap" },
+                _vm._l(this.colorTable, function(box, idx) {
+                  return _c("div", { key: idx }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col quadro",
+                        style: {
+                          backgroundColor:
+                            "rgb(" + box[0] + "," + box[1] + "," + box[2] + ")"
+                        }
+                      },
+                      [_vm._v(_vm._s(box[3]))]
+                    )
+                  ])
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("The most used color in the image is similar to:")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col quadro",
+                  style: {
+                    backgroundColor:
+                      "rgb(" +
+                      this.colorFrequency[0] +
+                      "," +
+                      this.colorFrequency[1] +
+                      "," +
+                      this.colorFrequency[2] +
+                      ")"
+                  }
+                },
+                [_vm._v(_vm._s(this.colorFrequency[3]))]
+              )
+            ])
+          : _vm._e()
       ])
     ])
   ])

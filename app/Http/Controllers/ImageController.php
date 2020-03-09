@@ -54,26 +54,40 @@ class ImageController extends Controller
         // it defines an extract method which return the most “representative” colors
         // $colors = $extractor->extract(5);
 
-        $mostUsedRgb = [0, 0, 0]; //RGB SIMULATED RESULT
+        $mostUsedRgb = [0, 32, 0]; //RGB SIMULATED RESULT
         $mostUsedLab = $this->rgbTolab($mostUsedRgb); //Convert to LAB
 
         $TableRGBs = [ // Reference color table
             [0, 255, 255, "Aqua"],
             [0, 0, 0, "Black"],
-            [0, 0, 255, "Blue"]
+            [0, 0, 255, "Blue"],
+            [255, 0, 255, "Fuchsia"],
+            [128, 128, 128, "Gray"],
+            [0, 128, 0, "Green"],
+            [0, 255, 0, "Lime"],
+            [128, 0, 0, "Maroon"],
+            [0, 0, 128, "Navy"],
+            [128, 128, 0, "Olive"],
+            [128, 0, 128, "Purple"],
+            [255, 0, 0, "Red"],
+            [192, 192, 192, "Silver"],
+            [0, 128, 128, "Teal"],
+            [255, 255, 255, "White"],
+            [255, 255, 0, "Yellow"]
         ];
 
-        $DeltaTab = [0, 0, 9990];
+        $DeltaTab = [];
 
         for ($num = 0; $num < count($TableRGBs); $num++) {
             $delta = $this->calculateDelta($mostUsedLab, $this->rgbTolab($TableRGBs[$num]));
             $DeltaTab[$num] = $delta;
         };
 
+        $indexPosition = array_search(min($DeltaTab), $DeltaTab);
 
         return response()->json([
-            'DeltaTab' => json_encode($DeltaTab),
-            'ColorTable' => json_encode($TableRGBs)
+            'position' => json_encode($indexPosition),
+            'colorTable' => json_encode($TableRGBs)
         ], 200);
     }
 
