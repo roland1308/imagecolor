@@ -13,6 +13,7 @@ use Imagick;
 class ImageController extends Controller
 {
     public function store(Request $request)
+    //Receives the image and store in public/images folder and the name into the database
     {
         if ($request->get('image')) {
             $image = $request->get('image');
@@ -21,11 +22,18 @@ class ImageController extends Controller
         };
 
         //NO NEED TO ADD INTO DB
-        // $image = new FileUpload();
-        // $image->image_name = $name;
-        // $image->save();
+        $image = new FileUpload();
+        $image->image_name = $name;
+        $image->save();
 
         return response()->json(['success' => public_path('images/') . $name], 200);
+    }
+
+    public function read()
+    //Get the ist of the filenames from the DB
+    {
+        $images = FileUpload::all('image_name')->toArray();
+        return response()->json(['success' => $images], 200);
     }
 
     public function check(Request $request)
@@ -53,7 +61,7 @@ class ImageController extends Controller
         // it defines an extract method which return the most “representative” colors
         // $colors = $extractor->extract(5);
 
-        $mostUsedRgb = [132, 0, 100]; //RGB SIMULATED RESULT
+        $mostUsedRgb = [10, 150, 10]; //RGB SIMULATED RESULT
         $mostUsedLab = $this->rgbTolab($mostUsedRgb); //Convert to LAB
 
         $TableRGBs = [ // Reference color table

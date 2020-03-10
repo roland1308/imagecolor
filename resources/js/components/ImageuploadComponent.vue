@@ -10,10 +10,32 @@
                 <input type="file" v-on:change="onImageChange" class="form-control" />
               </div>
               <div class="col-md-3">
-                <button class="btn btn-success btn-block" @click="uploadImage">Upload Image</button>
+                <button
+                  class="btn btn-success btn-block"
+                  v-if="image"
+                  @click="uploadImage"
+                >Upload Image</button>
+              </div>
+              <div class="col-md-3">
+                <button
+                  class="btn btn-success btn-block"
+                  v-if="!image"
+                  @click="browseImage"
+                >Browse Images</button>
               </div>
               <div class="col-md-3" v-if="image">
                 <img :src="image" class="img-responsive" height="70" width="90" />
+              </div>
+              <div class="col-md-3" v-if="imageList">
+                <div v-for="(imageDB, idx) in this.imageList" :key="idx">
+                  <img
+                    :src="'/images/' + imageDB.image_name"
+                    class="img-responsive"
+                    height="70"
+                    width="90"
+                    @click="checkImage('/images/' + imageDB.image_name)"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -23,19 +45,19 @@
             <div v-for="(box, idx) in this.colorTable" :key="idx">
               <div
                 class="col quadro"
-                v-bind:style="{ backgroundColor: 'rgb(' + box[0] + ',' + box[1] + ',' + box[2] + ')'}"
+                :style="{ backgroundColor: 'rgb(' + box[0] + ',' + box[1] + ',' + box[2] + ')'}"
               >{{box[3]}}</div>
             </div>
           </div>
           <p>The most used color in the image is:</p>
           <div
             class="col quadro"
-            v-bind:style="{ backgroundColor: 'rgb(' + this.askedColor[0] + ',' + this.askedColor[1] + ',' + this.askedColor[2] + ')'}"
+            :style="{ backgroundColor: 'rgb(' + this.askedColor[0] + ',' + this.askedColor[1] + ',' + this.askedColor[2] + ')'}"
           >RESULT</div>
           <p>And is similar to:</p>
           <div
             class="col quadro"
-            v-bind:style="{ backgroundColor: 'rgb(' + this.colorFrequency[0] + ',' + this.colorFrequency[1] + ',' + this.colorFrequency[2] + ')'}"
+            :style="{ backgroundColor: 'rgb(' + this.colorFrequency[0] + ',' + this.colorFrequency[1] + ',' + this.colorFrequency[2] + ')'}"
           >{{this.colorFrequency[3]}}</div>
         </div>
       </div>
@@ -51,7 +73,8 @@ export default {
       position: null,
       colorTable: [],
       colorFrequency: [],
-      askedColor: []
+      askedColor: [],
+      imageList: []
     };
   },
 
@@ -61,6 +84,7 @@ export default {
       if (!files.length) return;
       this.createImage(files[0]);
     },
+
     createImage(file) {
       let reader = new FileReader();
       let vm = this;
@@ -69,6 +93,7 @@ export default {
       };
       reader.readAsDataURL(file);
     },
+
     async uploadImage() {
       let response = await axios.post("/image/store", { image: this.image });
       if (response.data.success) {
@@ -77,6 +102,13 @@ export default {
         this.checkImage(response.data.success);
       }
     },
+
+    browseImage() {
+      axios.get("/image/read").then(response => {
+        this.imageList = response.data.success;
+      });
+    },
+
     async checkImage(fileLink) {
       let response = await axios.post("/image/check", { imageLink: fileLink });
       console.log(response.data);
@@ -89,7 +121,9 @@ export default {
 };
 </script>
 
-<style scoped>
+
+
+<style>
 .quadro {
   width: 100px;
   height: 100px;
