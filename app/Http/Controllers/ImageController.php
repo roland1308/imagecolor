@@ -26,7 +26,7 @@ class ImageController extends Controller
         $image->image_name = $name;
         $image->save();
 
-        return response()->json(['success' => public_path('images/') . $name], 200);
+        return response()->json(['success' => '/images/' . $name], 200);
     }
 
     public function read()
@@ -45,7 +45,7 @@ class ImageController extends Controller
 
         //The next doesn't work, I'll simulate that it gave me back an RGB value :
 
-        // $palette = \Palette::fromFilename($imageLink);
+        // $palette = Palette::fromFilename($imageLink);
 
         // $palette is an iterator on colors sorted by pixel count
         // foreach ($palette as $color => $count) {

@@ -1997,6 +1997,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2005,7 +2009,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       colorTable: [],
       colorFrequency: [],
       askedColor: [],
-      imageList: []
+      imageList: [],
+      reset: false,
+      originalLink: ""
     };
   },
   methods: {
@@ -2043,8 +2049,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (response.data.success) {
                   // alert(response.data.success);
-                  console.log("RISULTATO 1", response.data.success);
-
+                  // console.log("RISULTATO 1", response.data.success);
                   _this.checkImage(response.data.success);
                 }
 
@@ -2072,26 +2077,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                console.log(fileLink);
+                _this3.originalLink = fileLink;
+                _context2.next = 4;
                 return axios.post("/image/check", {
                   imageLink: fileLink
                 });
 
-              case 2:
+              case 4:
                 response = _context2.sent;
-                console.log(response.data);
+                // console.log(response.data);
                 _this3.position = response.data.position;
                 _this3.colorTable = JSON.parse(response.data.colorTable);
                 _this3.colorFrequency = _this3.colorTable[_this3.position];
                 _this3.askedColor = JSON.parse(response.data.mostUsed);
+                _this3.reset = true;
 
-              case 8:
+              case 10:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
+    },
+    resetData: function resetData() {
+      this.image = "";
+      this.position = null;
+      this.colorTable = [];
+      this.colorFrequency = [];
+      this.askedColor = [];
+      this.imageList = [];
+      this.reset = false;
+      this.originalLink = "";
     }
   }
 });
@@ -6641,7 +6659,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.quadro,\r\n.fotine {\r\n  width: 100px;\r\n  height: 100px;\n}\n.quadro {\r\n  width: 100px;\r\n  height: 100px;\r\n  text-align: center;\r\n  padding-top: 40px;\r\n  font-weight: bolder;\r\n  color: black;\r\n  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),\r\n    0 0 10px rgba(255, 255, 255, 0.5);\n}\n.fotine {\r\n  border-radius: 5px;\r\n  box-shadow: 5px 5px 15px 5px hsl(0, 2%, 47%);\r\n  margin: 10px;\n}\r\n", ""]);
+exports.push([module.i, "\n.quadro,\r\n.fotine {\r\n  width: 100px;\r\n  height: 100px;\r\n  margin: 10px;\n}\n.quadro {\r\n  text-align: center;\r\n  padding-top: 40px;\r\n  font-weight: bolder;\r\n  color: black;\r\n  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),\r\n    0 0 10px rgba(255, 255, 255, 0.5);\n}\n.fotine {\r\n  border-radius: 5px;\r\n  box-shadow: 5px 5px 15px 5px rgb(122, 117, 117);\n}\r\n", ""]);
 
 // exports
 
@@ -38861,18 +38879,31 @@ var render = function() {
             _vm._v("File Upload Component")
           ]),
           _vm._v(" "),
+          _vm.reset
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-warning btn-block",
+                  on: { click: _vm.resetData }
+                },
+                [_vm._v("RESET PAGE")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "file" },
-                  on: { change: _vm.onImageChange }
-                })
-              ]),
+              !_vm.reset
+                ? _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "file" },
+                      on: { change: _vm.onImageChange }
+                    })
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-3" }, [
-                _vm.image
+                _vm.image && !_vm.reset
                   ? _c(
                       "button",
                       {
@@ -38885,7 +38916,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-3" }, [
-                !_vm.image
+                !_vm.image && !_vm.reset
                   ? _c(
                       "button",
                       {
@@ -38897,7 +38928,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.image
+              _vm.image && !_vm.reset
                 ? _c("div", { staticClass: "col-md-3" }, [
                     _c("img", {
                       staticClass: "img-responsive",
@@ -38907,7 +38938,7 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            _vm.imageList
+            _vm.imageList && !_vm.reset
               ? _c(
                   "div",
                   { staticClass: "d-flex flex-row flex-wrap" },
@@ -38916,11 +38947,7 @@ var render = function() {
                       _c("div", [
                         _c("img", {
                           staticClass: "fotine",
-                          attrs: {
-                            src: "/images/" + imageDB.image_name,
-                            height: "70",
-                            width: "90"
-                          },
+                          attrs: { src: "/images/" + imageDB.image_name },
                           on: {
                             click: function($event) {
                               return _vm.checkImage(
@@ -38963,23 +38990,32 @@ var render = function() {
               _vm._v(" "),
               _c("p", [_vm._v("The most used color in the image is:")]),
               _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "quadro",
-                  style: {
-                    backgroundColor:
-                      "rgb(" +
-                      this.askedColor[0] +
-                      "," +
-                      this.askedColor[1] +
-                      "," +
-                      this.askedColor[2] +
-                      ")"
-                  }
-                },
-                [_vm._v("RESULT")]
-              ),
+              _c("div", { staticClass: "d-flex flex-row" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "quadro",
+                    style: {
+                      backgroundColor:
+                        "rgb(" +
+                        this.askedColor[0] +
+                        "," +
+                        this.askedColor[1] +
+                        "," +
+                        this.askedColor[2] +
+                        ")"
+                    }
+                  },
+                  [_vm._v("RESULT")]
+                ),
+                _vm._v(" "),
+                _c("div", [
+                  _c("img", {
+                    staticClass: "fotine",
+                    attrs: { src: _vm.originalLink }
+                  })
+                ])
+              ]),
               _vm._v(" "),
               _c("p", [_vm._v("And is similar to:")]),
               _vm._v(" "),
