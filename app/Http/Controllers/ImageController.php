@@ -62,6 +62,7 @@ class ImageController extends Controller
         // it defines an extract method which return the most “representative” colors
         $colors = $extractor->extract(1);
         $colors = dechex($colors[0]);
+        $colors = str_pad($colors, 6, "0", STR_PAD_LEFT);
         $mostUsedRgb[0] = hexdec(substr($colors, 0, 2));
         $mostUsedRgb[1] = hexdec(substr($colors, 2, 2));
         $mostUsedRgb[2] = hexdec(substr($colors, 4, 2));
@@ -101,7 +102,8 @@ class ImageController extends Controller
         return response()->json([
             'position' => json_encode($indexPosition),
             'colorTable' => json_encode($TableRGBs),
-            'mostUsed' => json_encode($mostUsedRgb)
+            'mostUsed' => json_encode($mostUsedRgb),
+            'test' => json_encode($colors)
         ], 200);
     }
 

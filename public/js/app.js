@@ -2016,8 +2016,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     onImageChange: function onImageChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
+      var files = e.target.files;
+      var ext = files[0].type;
+
+      if (!files.length | !ext.includes("image")) {
+        this.image = "";
+        alert("Only image files are allowed");
+        return;
+      }
+
       this.createImage(files[0]);
     },
     createImage: function createImage(file) {
@@ -2085,13 +2092,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context2.sent;
+                console.log("Test:", response.data.test);
                 _this3.position = response.data.position;
                 _this3.colorTable = JSON.parse(response.data.colorTable);
                 _this3.colorFrequency = _this3.colorTable[_this3.position];
                 _this3.askedColor = JSON.parse(response.data.mostUsed);
                 _this3.reset = true;
 
-              case 9:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -38921,7 +38929,7 @@ var render = function() {
                         staticClass: "btn btn-success btn-block",
                         on: { click: _vm.browseImage }
                       },
-                      [_vm._v("Browse Images")]
+                      [_vm._v("Browse DataBase Images")]
                     )
                   : _vm._e()
               ]),

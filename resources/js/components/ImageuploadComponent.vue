@@ -22,7 +22,7 @@
                   class="btn btn-success btn-block"
                   v-if="!image && !reset"
                   @click="browseImage"
-                >Browse Images</button>
+                >Browse DataBase Images</button>
               </div>
               <div class="col-md-3" v-if="image && !reset">
                 <img :src="image" class="img-responsive" height="70" width="90" />
@@ -88,8 +88,13 @@ export default {
 
   methods: {
     onImageChange(e) {
-      let files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
+      let files = e.target.files;
+      let ext = files[0].type;
+      if (!files.length | !ext.includes("image")) {
+        this.image = "";
+        alert("Only image files are allowed");
+        return;
+      }
       this.createImage(files[0]);
     },
 
@@ -120,6 +125,7 @@ export default {
     async checkImage(fileLink) {
       this.originalLink = fileLink;
       let response = await axios.post("/image/check", { imageLink: fileLink });
+      console.log("Test:", response.data.test);
       this.position = response.data.position;
       this.colorTable = JSON.parse(response.data.colorTable);
       this.colorFrequency = this.colorTable[this.position];
