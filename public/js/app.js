@@ -2077,23 +2077,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log(fileLink);
                 _this3.originalLink = fileLink;
-                _context2.next = 4;
+                _context2.next = 3;
                 return axios.post("/image/check", {
                   imageLink: fileLink
                 });
 
-              case 4:
+              case 3:
                 response = _context2.sent;
-                // console.log(response.data);
                 _this3.position = response.data.position;
                 _this3.colorTable = JSON.parse(response.data.colorTable);
                 _this3.colorFrequency = _this3.colorTable[_this3.position];
                 _this3.askedColor = JSON.parse(response.data.mostUsed);
                 _this3.reset = true;
 
-              case 10:
+              case 9:
               case "end":
                 return _context2.stop();
             }

@@ -40,12 +40,13 @@ class ImageController extends Controller
     {
         //https://www.php.net/manual/es/imagick.getimagecolors.php
 
-        // $imageLink = $request->get('imageLink');
+        $imageLink = $request->get('imageLink');
+        $imageLink = "." . $imageLink;
         // $imageLink = "../../../1583764572.png";
 
         //The next doesn't work, I'll simulate that it gave me back an RGB value :
 
-        // $palette = Palette::fromFilename($imageLink);
+        $palette = Palette::fromFilename($imageLink);
 
         // $palette is an iterator on colors sorted by pixel count
         // foreach ($palette as $color => $count) {
@@ -57,11 +58,16 @@ class ImageController extends Controller
         // $colorCount = count($palette);
         // $blackCount = $palette->getColorCount(Color::fromHexToInt('#000000'));
         // an extractor is built from a palette
-        // $extractor = new ColorExtractor($palette);
+        $extractor = new ColorExtractor($palette);
         // it defines an extract method which return the most “representative” colors
-        // $colors = $extractor->extract(5);
+        $colors = $extractor->extract(1);
+        $colors = dechex($colors[0]);
+        $mostUsedRgb[0] = hexdec(substr($colors, 0, 2));
+        $mostUsedRgb[1] = hexdec(substr($colors, 2, 2));
+        $mostUsedRgb[2] = hexdec(substr($colors, 4, 2));
 
-        $mostUsedRgb = [10, 150, 10]; //RGB SIMULATED RESULT
+        // $mostUsedRgb = [substr($colors, 0, 2), substr($colors, 2, 2), substr($colors, 4, 2)];
+        // $mostUsedRgb = [10, 20, 20]; //RGB SIMULATED RESULT
         $mostUsedLab = $this->rgbTolab($mostUsedRgb); //Convert to LAB
 
         $TableRGBs = [ // Reference color table

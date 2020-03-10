@@ -118,10 +118,8 @@ export default {
     },
 
     async checkImage(fileLink) {
-      console.log(fileLink);
       this.originalLink = fileLink;
       let response = await axios.post("/image/check", { imageLink: fileLink });
-      // console.log(response.data);
       this.position = response.data.position;
       this.colorTable = JSON.parse(response.data.colorTable);
       this.colorFrequency = this.colorTable[this.position];
