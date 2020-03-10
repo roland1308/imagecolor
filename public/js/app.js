@@ -1995,6 +1995,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2040,7 +2042,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (response.data.success) {
-                  alert(response.data.success);
+                  // alert(response.data.success);
                   console.log("RISULTATO 1", response.data.success);
 
                   _this.checkImage(response.data.success);
@@ -6639,7 +6641,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.quadro {\r\n  width: 100px;\r\n  height: 100px;\r\n  text-align: center;\r\n  padding-top: 40px;\r\n  font-weight: bolder;\r\n  color: black;\r\n  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),\r\n    0 0 10px rgba(255, 255, 255, 0.5);\n}\r\n", ""]);
+exports.push([module.i, "\n.quadro,\r\n.fotine {\r\n  width: 100px;\r\n  height: 100px;\n}\n.quadro {\r\n  width: 100px;\r\n  height: 100px;\r\n  text-align: center;\r\n  padding-top: 40px;\r\n  font-weight: bolder;\r\n  color: black;\r\n  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),\r\n    0 0 10px rgba(255, 255, 255, 0.5);\n}\n.fotine {\r\n  border-radius: 5px;\r\n  box-shadow: 5px 5px 15px 5px hsl(0, 2%, 47%);\r\n  margin: 10px;\n}\r\n", ""]);
 
 // exports
 
@@ -38902,16 +38904,18 @@ var render = function() {
                       attrs: { src: _vm.image, height: "70", width: "90" }
                     })
                   ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.imageList
-                ? _c(
-                    "div",
-                    { staticClass: "col-md-3" },
-                    _vm._l(this.imageList, function(imageDB, idx) {
-                      return _c("div", { key: idx }, [
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm.imageList
+              ? _c(
+                  "div",
+                  { staticClass: "d-flex flex-row flex-wrap" },
+                  _vm._l(this.imageList, function(imageDB, idx) {
+                    return _c("div", { key: idx }, [
+                      _c("div", [
                         _c("img", {
-                          staticClass: "img-responsive",
+                          staticClass: "fotine",
                           attrs: {
                             src: "/images/" + imageDB.image_name,
                             height: "70",
@@ -38926,11 +38930,11 @@ var render = function() {
                           }
                         })
                       ])
-                    }),
-                    0
-                  )
-                : _vm._e()
-            ])
+                    ])
+                  }),
+                  0
+                )
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -38944,7 +38948,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col quadro",
+                        staticClass: "quadro",
                         style: {
                           backgroundColor:
                             "rgb(" + box[0] + "," + box[1] + "," + box[2] + ")"
@@ -38962,7 +38966,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "col quadro",
+                  staticClass: "quadro",
                   style: {
                     backgroundColor:
                       "rgb(" +
@@ -38982,7 +38986,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "col quadro",
+                  staticClass: "quadro",
                   style: {
                     backgroundColor:
                       "rgb(" +

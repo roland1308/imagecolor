@@ -26,11 +26,13 @@
               <div class="col-md-3" v-if="image">
                 <img :src="image" class="img-responsive" height="70" width="90" />
               </div>
-              <div class="col-md-3" v-if="imageList">
-                <div v-for="(imageDB, idx) in this.imageList" :key="idx">
+            </div>
+            <div class="d-flex flex-row flex-wrap" v-if="imageList">
+              <div v-for="(imageDB, idx) in this.imageList" :key="idx">
+                <div>
                   <img
                     :src="'/images/' + imageDB.image_name"
-                    class="img-responsive"
+                    class="fotine"
                     height="70"
                     width="90"
                     @click="checkImage('/images/' + imageDB.image_name)"
@@ -44,19 +46,19 @@
           <div class="d-flex flex-row flex-wrap">
             <div v-for="(box, idx) in this.colorTable" :key="idx">
               <div
-                class="col quadro"
+                class="quadro"
                 :style="{ backgroundColor: 'rgb(' + box[0] + ',' + box[1] + ',' + box[2] + ')'}"
               >{{box[3]}}</div>
             </div>
           </div>
           <p>The most used color in the image is:</p>
           <div
-            class="col quadro"
+            class="quadro"
             :style="{ backgroundColor: 'rgb(' + this.askedColor[0] + ',' + this.askedColor[1] + ',' + this.askedColor[2] + ')'}"
           >RESULT</div>
           <p>And is similar to:</p>
           <div
-            class="col quadro"
+            class="quadro"
             :style="{ backgroundColor: 'rgb(' + this.colorFrequency[0] + ',' + this.colorFrequency[1] + ',' + this.colorFrequency[2] + ')'}"
           >{{this.colorFrequency[3]}}</div>
         </div>
@@ -97,7 +99,7 @@ export default {
     async uploadImage() {
       let response = await axios.post("/image/store", { image: this.image });
       if (response.data.success) {
-        alert(response.data.success);
+        // alert(response.data.success);
         console.log("RISULTATO 1", response.data.success);
         this.checkImage(response.data.success);
       }
@@ -124,6 +126,12 @@ export default {
 
 
 <style>
+.quadro,
+.fotine {
+  width: 100px;
+  height: 100px;
+}
+
 .quadro {
   width: 100px;
   height: 100px;
@@ -133,5 +141,11 @@ export default {
   color: black;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
     0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.fotine {
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 5px hsl(0, 2%, 47%);
+  margin: 10px;
 }
 </style>
